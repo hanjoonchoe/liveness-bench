@@ -92,3 +92,23 @@ the same escalation switch used for statistical sufficiency.
 - `kzg-verkle` and `recursive-snark` rows are **literature order-of-magnitude proxies**,
   not measured here — implementing them for real (blst/arkworks, Halo2/Nova) is a
   separate track.
+
+## Related: the precedence half
+
+This bench measures **freshness** — "is this agent verifiably alive/current *now*?"
+The complementary problem is **precedence** — "did this claim exist *no later than* T?"
+(monotone once anchored, never decays). A live third-party reference implementation:
+
+- [`api.babyblueviper.com/ledger`](https://api.babyblueviper.com/ledger) — an
+  OTS-anchored public verdict ledger ([invinoveritas](https://github.com/babyblueviper1/invinoveritas)).
+  Two tiers: Nostr relay attestation (fast) and OpenTimestamps Bitcoin anchoring (firm).
+  **Independently verified here (2026-07-16):** the relay tier checks out — events fetched
+  from public relays, NIP-01 id recomputed, BIP-340 signature valid against the published
+  pubkey (3/3 sampled entries). The OTS tier is not yet third-party-runnable: the `.ots`
+  proof files referenced by each entry are not publicly served (see
+  [issue #1](https://github.com/hanjoonchoe/liveness-bench/issues/1)).
+  Third-party service, independently operated.
+
+Note per the ethereum-magicians discussion (posts 289–294): the `crypto-economic-bond`
+row above is a correctness/status read, not a liveness *proof* — liveness itself is
+confirmed by the request, with attestation as a selection-time prefilter.
