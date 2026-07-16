@@ -102,11 +102,14 @@ The complementary problem is **precedence** — "did this claim exist *no later 
 - [`api.babyblueviper.com/ledger`](https://api.babyblueviper.com/ledger) — an
   OTS-anchored public verdict ledger ([invinoveritas](https://github.com/babyblueviper1/invinoveritas)).
   Two tiers: Nostr relay attestation (fast) and OpenTimestamps Bitcoin anchoring (firm).
-  **Independently verified here (2026-07-16):** the relay tier checks out — events fetched
+  **Independently verified here (2026-07-16), both tiers.** Relay tier: events fetched
   from public relays, NIP-01 id recomputed, BIP-340 signature valid against the published
-  pubkey (3/3 sampled entries). The OTS tier is not yet third-party-runnable: the `.ots`
-  proof files referenced by each entry are not publicly served (see
-  [issue #1](https://github.com/hanjoonchoe/liveness-bench/issues/1)).
+  pubkey (3/3 sampled entries). OTS tier: `.ots` proofs downloaded from
+  `GET /ledger/{entry}/ots`, digest matches the signed event_id, and the proof's operation
+  chain recomputes to the merkle root of the attested Bitcoin block (entries 1 and 38 →
+  blocks 954412 and 955810, cross-checked against two independent explorers); a pending
+  entry's proof is served too and honestly reports unconfirmed. The `.ots` route was added
+  in response to [issue #1](https://github.com/hanjoonchoe/liveness-bench/issues/1).
   Third-party service, independently operated.
 
 Note per the ethereum-magicians discussion (posts 289–294): the `crypto-economic-bond`
