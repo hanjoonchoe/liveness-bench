@@ -1,0 +1,24 @@
+[package]
+name = "liveness-bench"
+version = "0.1.0"
+edition = "2021"
+description = "Benchmarks for agent liveness/freshness verification schemes (naive, Merkle, signature-attestation, RSA accumulator, crypto-economic bond), plus documented literature proxies for KZG/Verkle and recursive SNARK."
+
+[dependencies]
+sha2 = "0.10"
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+rand = "0.8"
+rand_core = "0.6"
+num-bigint = { version = "0.4", features = ["rand"] }
+num-integer = "0.1"
+num-traits = "0.2"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "liveness"
+harness = false
+
+[profile.release]
+opt-level = 3
